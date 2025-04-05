@@ -116,60 +116,66 @@
       color: var(--bg-color);
     }
 
-    .work-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 30px;
-      margin-top: 60px;
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 80px;
     }
 
-    .work-item {
+    .main-video {
+      width: 80vw;
+      max-width: 960px;
+      height: 45vw;
+      max-height: 540px;
       position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #111;
-      overflow: hidden;
-      cursor: pointer;
     }
 
-    .work-item img {
+    .main-video iframe {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
     }
 
-    .work-item:hover img {
-      transform: scale(1.05);
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.95);
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-    }
-
-    .modal iframe {
+    .nav-arrows {
+      display: flex;
+      justify-content: space-between;
       width: 80vw;
-      height: 45vw;
       max-width: 960px;
-      max-height: 540px;
+      margin: 20px 0;
     }
 
-    .modal .close {
-      position: absolute;
-      top: 30px;
-      right: 40px;
-      font-size: 2rem;
-      color: white;
+    .nav-arrows button {
+      background: none;
+      border: 1px solid var(--text-color);
+      color: var(--text-color);
+      padding: 10px 20px;
       cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .nav-arrows button:hover {
+      background-color: var(--text-color);
+      color: var(--bg-color);
+    }
+
+    .thumbnail-list {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px;
+    }
+
+    .thumbnail-list img {
+      height: 90px;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .thumbnail-list img.active,
+    .thumbnail-list img:hover {
+      transform: scale(1.05);
+      opacity: 1;
     }
   </style>
 </head>
@@ -191,38 +197,17 @@
       <p>Sarathchandran P</p>
     </div>
 
-    <section class="work-grid">
-      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/HsUp8cTUbCM')">
-        <img src="https://img.youtube.com/vi/HsUp8cTUbCM/hqdefault.jpg" alt="ProjectX">
+    <section class="gallery">
+      <div class="main-video">
+        <iframe id="mainPlayer" src="https://www.youtube.com/embed/q1HzS-V3FCU" frameborder="0" allowfullscreen allow="autoplay"></iframe>
       </div>
-      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/FnhjGa4giU0')">
-        <img src="https://img.youtube.com/vi/FnhjGa4giU0/hqdefault.jpg" alt="Anoleaks G">
+      <div class="nav-arrows">
+        <button onclick="prevVideo()">← Prev</button>
+        <button onclick="nextVideo()">Next →</button>
       </div>
-      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/q1HzS-V3FCU')">
-        <img src="https://img.youtube.com/vi/q1HzS-V3FCU/hqdefault.jpg" alt="Mountain Frames">
-      </div>
-      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/mobVSFwHxbI')">
-        <img src="https://img.youtube.com/vi/mobVSFwHxbI/hqdefault.jpg" alt="Under 25 Promo">
-      </div>
-      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/elkZaatn_ys')">
-        <img src="https://img.youtube.com/vi/elkZaatn_ys/hqdefault.jpg" alt="Neil MV">
-      </div>
-      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/Aw4zJsUem2Y')">
-        <img src="https://img.youtube.com/vi/Aw4zJsUem2Y/hqdefault.jpg" alt="Prajnayu Ad">
-      </div>
-      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/p7Hm20_0NmI')">
-        <img src="https://img.youtube.com/vi/p7Hm20_0NmI/hqdefault.jpg" alt="Via Ferrata">
-      </div>
-      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/fhl__eMfsJs')">
-        <img src="https://img.youtube.com/vi/fhl__eMfsJs/hqdefault.jpg" alt="Week of Welcome">
-      </div>
+      <div class="thumbnail-list" id="thumbnails"></div>
     </section>
   </main>
-
-  <div class="modal" id="videoModal">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <iframe id="videoFrame" src="" frameborder="0" allowfullscreen allow="autoplay"></iframe>
-  </div>
 
   <script>
     function toggleMode() {
@@ -235,19 +220,46 @@
       }, 2000);
     });
 
-    function openModal(videoUrl) {
-      const modal = document.getElementById('videoModal');
-      const frame = document.getElementById('videoFrame');
-      frame.src = videoUrl + '?autoplay=1';
-      modal.style.display = 'flex';
+    const videos = [
+      { id: 'q1HzS-V3FCU', title: 'Mountain Frames' },
+      { id: 'mobVSFwHxbI', title: 'Under 25 Promo' },
+      { id: 'elkZaatn_ys', title: 'Neil MV' },
+      { id: 'Aw4zJsUem2Y', title: 'Prajnayu Ad' },
+      { id: 'p7Hm20_0NmI', title: 'Via Ferrata' },
+      { id: 'fhl__eMfsJs', title: 'Week of Welcome' }
+    ];
+
+    let current = 0;
+    const mainPlayer = document.getElementById('mainPlayer');
+    const thumbnailList = document.getElementById('thumbnails');
+
+    function updateVideo(index) {
+      current = index;
+      const video = videos[index];
+      mainPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+      Array.from(thumbnailList.children).forEach((img, i) => {
+        img.classList.toggle('active', i === index);
+      });
     }
 
-    function closeModal() {
-      const modal = document.getElementById('videoModal');
-      const frame = document.getElementById('videoFrame');
-      modal.style.display = 'none';
-      frame.src = '';
+    function prevVideo() {
+      const newIndex = (current - 1 + videos.length) % videos.length;
+      updateVideo(newIndex);
     }
+
+    function nextVideo() {
+      const newIndex = (current + 1) % videos.length;
+      updateVideo(newIndex);
+    }
+
+    videos.forEach((video, index) => {
+      const img = document.createElement('img');
+      img.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+      img.alt = video.title;
+      img.onclick = () => updateVideo(index);
+      if (index === current) img.classList.add('active');
+      thumbnailList.appendChild(img);
+    });
   </script>
 </body>
 </html>
