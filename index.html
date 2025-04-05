@@ -120,40 +120,56 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 30px;
-      margin-top: 80px;
+      margin-top: 60px;
     }
 
     .work-item {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
-      background: #111 url('https://via.placeholder.com/480x270/222/888?text=Thumbnail') center center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 1.2rem;
-      text-transform: uppercase;
-      transition: background 0.3s, transform 0.3s;
+      background: #111;
+      overflow: hidden;
       cursor: pointer;
-      text-align: center;
     }
 
-    .work-item:hover {
-      background-blend-mode: lighten;
-      transform: scale(1.02);
+    .work-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
     }
 
-    .work-item a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.1rem;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 10px;
+    .work-item:hover img {
+      transform: scale(1.05);
     }
 
-    .work-item a:hover {
-      color: #00ffee;
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.95);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal iframe {
+      width: 80vw;
+      height: 45vw;
+      max-width: 960px;
+      max-height: 540px;
+    }
+
+    .modal .close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -176,29 +192,37 @@
     </div>
 
     <section class="work-grid">
-      <div class="work-item">
-        <a href="https://youtu.be/FnhjGa4giU0" target="_blank">Anoleaks G</a>
+      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/HsUp8cTUbCM')">
+        <img src="https://img.youtube.com/vi/HsUp8cTUbCM/hqdefault.jpg" alt="ProjectX">
       </div>
-      <div class="work-item">
-        <a href="https://youtu.be/q1HzS-V3FCU" target="_blank">Mountain Frames | Resort Experience</a>
+      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/FnhjGa4giU0')">
+        <img src="https://img.youtube.com/vi/FnhjGa4giU0/hqdefault.jpg" alt="Anoleaks G">
       </div>
-      <div class="work-item">
-        <a href="https://youtu.be/mobVSFwHxbI" target="_blank">Under 25 Townhall | Promo</a>
+      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/q1HzS-V3FCU')">
+        <img src="https://img.youtube.com/vi/q1HzS-V3FCU/hqdefault.jpg" alt="Mountain Frames">
       </div>
-      <div class="work-item">
-        <a href="https://youtu.be/elkZaatn_ys" target="_blank">Neil MDHV - Craving (Official MV)</a>
+      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/mobVSFwHxbI')">
+        <img src="https://img.youtube.com/vi/mobVSFwHxbI/hqdefault.jpg" alt="Under 25 Promo">
       </div>
-      <div class="work-item">
-        <a href="https://youtu.be/Aw4zJsUem2Y" target="_blank">Prajnayu Ayurvedic Hospital | Ad</a>
+      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/elkZaatn_ys')">
+        <img src="https://img.youtube.com/vi/elkZaatn_ys/hqdefault.jpg" alt="Neil MV">
       </div>
-      <div class="work-item">
-        <a href="https://youtu.be/p7Hm20_0NmI" target="_blank">Via Ferrata: A Trek to Remember</a>
+      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/Aw4zJsUem2Y')">
+        <img src="https://img.youtube.com/vi/Aw4zJsUem2Y/hqdefault.jpg" alt="Prajnayu Ad">
       </div>
-      <div class="work-item">
-        <a href="https://youtu.be/fhl__eMfsJs" target="_blank">Week of Welcome Highlights</a>
+      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/p7Hm20_0NmI')">
+        <img src="https://img.youtube.com/vi/p7Hm20_0NmI/hqdefault.jpg" alt="Via Ferrata">
+      </div>
+      <div class="work-item" onclick="openModal('https://www.youtube.com/embed/fhl__eMfsJs')">
+        <img src="https://img.youtube.com/vi/fhl__eMfsJs/hqdefault.jpg" alt="Week of Welcome">
       </div>
     </section>
   </main>
+
+  <div class="modal" id="videoModal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <iframe id="videoFrame" src="" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+  </div>
 
   <script>
     function toggleMode() {
@@ -210,6 +234,20 @@
         document.querySelector('.loader').style.display = 'none';
       }, 2000);
     });
+
+    function openModal(videoUrl) {
+      const modal = document.getElementById('videoModal');
+      const frame = document.getElementById('videoFrame');
+      frame.src = videoUrl + '?autoplay=1';
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('videoModal');
+      const frame = document.getElementById('videoFrame');
+      modal.style.display = 'none';
+      frame.src = '';
+    }
   </script>
 </body>
 </html>
