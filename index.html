@@ -42,15 +42,20 @@
     }
 
     .loader h1 {
-      font-family: 'Etna', sans-serif;
-      font-size: 6rem;
-      animation: hueRotate 4s infinite linear;
-    }
+  font-family: 'Etna', sans-serif;
+  font-size: 6rem;
+  background: linear-gradient(90deg, #ff0000, #00ffcc, #0099ff, #ff00ff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hueGradient 5s infinite linear;
+}
 
-    @keyframes hueRotate {
-      0% { filter: hue-rotate(0deg); }
-      100% { filter: hue-rotate(360deg); }
-    }
+@keyframes hueGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
     main {
       display: flex;
