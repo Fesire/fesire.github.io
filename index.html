@@ -6,7 +6,7 @@
   <title>Fesire.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Etna&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Etna&family=Staatliches&family=Syne&family=Bungee&family=Orbitron&family=Rubik+Glitch&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-color: #000;
@@ -41,7 +41,6 @@
     }
 
     .loader h1 {
-      font-family: 'Etna', sans-serif;
       font-size: 6rem;
       background: linear-gradient(90deg, #ff0000, #00ffcc, #0099ff, #ff00ff);
       background-size: 300% 300%;
@@ -181,6 +180,13 @@
       opacity: 1;
     }
 
+    .caption {
+      margin-top: 20px;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
     @media (max-width: 600px) {
       .main-video {
         width: 100vw;
@@ -196,7 +202,7 @@
 </head>
 <body>
   <div class="loader">
-    <h1>Fesire.</h1>
+    <h1 id="loaderText">Fesire.</h1>
   </div>
 
   <button class="toggle" onclick="toggleMode()">Toggle</button>
@@ -216,6 +222,7 @@
       <div class="main-video">
         <iframe id="mainPlayer" src="https://www.youtube.com/embed/FnhjGa4giU0" frameborder="0" allowfullscreen allow="autoplay"></iframe>
       </div>
+      <div class="caption" id="videoCaption">Anoleaks G</div>
       <div class="nav-arrows">
         <button onclick="prevVideo()">← Prev</button>
         <button onclick="nextVideo()">Next →</button>
@@ -233,6 +240,21 @@
       setTimeout(() => {
         document.querySelector('.loader').style.display = 'none';
       }, 2000);
+
+      const fonts = [
+        'Staatliches',
+        'Syne',
+        'Bungee',
+        'Orbitron',
+        'Rubik Glitch',
+        'Etna'
+      ];
+      let fontIndex = 0;
+      const loaderText = document.getElementById('loaderText');
+      setInterval(() => {
+        loaderText.style.fontFamily = `'${fonts[fontIndex]}', sans-serif`;
+        fontIndex = (fontIndex + 1) % fonts.length;
+      }, 2000);
     });
 
     const videos = [
@@ -242,17 +264,20 @@
       { id: 'elkZaatn_ys', title: 'Neil MV' },
       { id: 'Aw4zJsUem2Y', title: 'Prajnayu Ad' },
       { id: 'p7Hm20_0NmI', title: 'Via Ferrata' },
-      { id: 'fhl__eMfsJs', title: 'Week of Welcome' }
+      { id: 'fhl__eMfsJs', title: 'Week of Welcome' },
+      { id: 'ZMbE9mnDqEo', title: 'Krib T-shirt Promo' }
     ];
 
     let current = 0;
     const mainPlayer = document.getElementById('mainPlayer');
     const thumbnailList = document.getElementById('thumbnails');
+    const videoCaption = document.getElementById('videoCaption');
 
     function updateVideo(index) {
       current = index;
       const video = videos[index];
       mainPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+      videoCaption.textContent = video.title;
       Array.from(thumbnailList.children).forEach((img, i) => {
         img.classList.toggle('active', i === index);
       });
