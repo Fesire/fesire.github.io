@@ -42,7 +42,18 @@
 
     .loader h1 {
       font-size: 6rem;
-      color: var(--text-color);
+      background: linear-gradient(90deg, #ff0000, #00ffcc, #0099ff, #ff00ff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: hueGradient 5s infinite linear;
+      transition: font-family 0.5s ease;
+    }
+
+    @keyframes hueGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     main {
@@ -227,10 +238,6 @@
     }
 
     window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.querySelector('.loader').style.display = 'none';
-      }, 2000);
-
       const fonts = [
         'Staatliches',
         'Syne',
@@ -241,21 +248,28 @@
       ];
       let fontIndex = 0;
       const loaderText = document.getElementById('loaderText');
-      setInterval(() => {
+
+      // Start font changing before hiding
+      const fontInterval = setInterval(() => {
         loaderText.style.fontFamily = `'${fonts[fontIndex]}', sans-serif`;
         fontIndex = (fontIndex + 1) % fonts.length;
-      }, 2000);
+      }, 800); // faster cycle so we see more fonts before loader disappears
+
+      setTimeout(() => {
+        document.querySelector('.loader').style.display = 'none';
+        clearInterval(fontInterval); // stop changing once hidden
+      }, 4000); // loader stays for 4s now, so more time to show font changes
     });
 
     const videos = [
-  { id: 'FnhjGa4giU0', title: 'Anoleaks G' },
-  { id: 'q1HzS-V3FCU', title: 'Mountain Frames' },
-  { id: 'mobVSFwHxbI', title: 'Under 25 Promo' },
-  { id: 'elkZaatn_ys', title: 'Neil MV' },
-  { id: 'Aw4zJsUem2Y', title: 'Prajnayu Ad' },
-  { id: 'p7Hm20_0NmI', title: 'Via Ferrata' },
-  { id: 'fhl__eMfsJs', title: 'Week of Welcome' }
-];
+      { id: 'FnhjGa4giU0', title: 'Anoleaks G' },
+      { id: 'q1HzS-V3FCU', title: 'Mountain Frames' },
+      { id: 'mobVSFwHxbI', title: 'Under 25 Promo' },
+      { id: 'elkZaatn_ys', title: 'Neil MV' },
+      { id: 'Aw4zJsUem2Y', title: 'Prajnayu Ad' },
+      { id: 'p7Hm20_0NmI', title: 'Via Ferrata' },
+      { id: 'fhl__eMfsJs', title: 'Week of Welcome' }
+    ];
 
     let current = 0;
     const mainPlayer = document.getElementById('mainPlayer');
