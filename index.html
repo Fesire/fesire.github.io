@@ -242,19 +242,22 @@
       }, 2000);
 
       const fonts = [
-        'Staatliches',
-        'Syne',
-        'Bungee',
-        'Orbitron',
-        'Rubik Glitch',
-        'Etna'
-      ];
-      let fontIndex = 0;
-      const loaderText = document.getElementById('loaderText');
-      setInterval(() => {
-        loaderText.style.fontFamily = `'${fonts[fontIndex]}', sans-serif`;
-        fontIndex = (fontIndex + 1) % fonts.length;
-      }, 2000);
+  'Staatliches',
+  'Syne',
+  'Bungee',
+  'Orbitron',
+  'Rubik Glitch',
+  'Etna'
+];
+
+let fontIndex = 0;
+const loaderText = document.getElementById('loaderText');
+
+setInterval(() => {
+  const newFont = fonts[fontIndex];
+  loaderText.style.fontFamily = `'${newFont}', sans-serif`;
+  fontIndex = (fontIndex + 1) % fonts.length;
+}, 2000);
     });
 
     const videos = [
