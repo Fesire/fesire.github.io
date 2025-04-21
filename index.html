@@ -238,27 +238,28 @@
     }
 
     window.addEventListener('load', () => {
-      const fonts = [
-        'Staatliches',
-        'Syne',
-        'Bungee',
-        'Orbitron',
-        'Rubik Glitch',
-        'Etna'
-      ];
-      let fontIndex = 0;
-      const loaderText = document.getElementById('loaderText');
+    setTimeout(() => {
+      document.querySelector('.loader').style.display = 'none';
+    }, 2000);
 
-      // Start font changing before hiding
-      const fontInterval = setInterval(() => {
-        loaderText.style.fontFamily = `'${fonts[fontIndex]}', sans-serif`;
-        fontIndex = (fontIndex + 1) % fonts.length;
-      }, 800); // faster cycle so we see more fonts before loader disappears
+    const fonts = [
+      'Staatliches',
+      'Syne',
+      'Bungee',
+      'Orbitron',
+      'Rubik Glitch',
+      'Etna'
+    ];
+    let fontIndex = 0;
+    const loaderText = document.getElementById('loaderText');
 
-      setTimeout(() => {
-        document.querySelector('.loader').style.display = 'none';
-        clearInterval(fontInterval); // stop changing once hidden
-      }, 4000); // loader stays for 4s now, so more time to show font changes
+    // Add smooth transition for font change
+    loaderText.style.transition = 'font-family 0.5s ease-in-out';
+    
+    setInterval(() => {
+      loaderText.style.fontFamily = `'${fonts[fontIndex]}', sans-serif`;
+      fontIndex = (fontIndex + 1) % fonts.length;
+    }, 1000);  // Faster change interval (1 second) // loader stays for 4s now, so more time to show font changes
     });
 
     const videos = [
