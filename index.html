@@ -47,7 +47,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: hueGradient 5s infinite linear;
-      transition: font-family 1s ease-in-out; /* Increased transition duration */
+      transition: font-family 1s ease-in-out;
     }
 
     @keyframes hueGradient {
@@ -82,15 +82,18 @@
       position: absolute;
       top: 20px;
       right: 30px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
     }
 
     nav a {
       color: var(--text-color);
       text-decoration: none;
-      margin-left: 20px;
       font-size: 0.9rem;
       text-transform: uppercase;
       transition: color 0.3s;
+      position: relative;
     }
 
     nav a:hover {
@@ -114,6 +117,41 @@
     .toggle:hover {
       background-color: var(--text-color);
       color: var(--bg-color);
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background-color: #111;
+      min-width: 200px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      z-index: 999;
+      padding: 10px 0;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: #fff;
+      padding: 10px 20px;
+      display: block;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .gallery {
@@ -208,7 +246,10 @@
 
   <button class="toggle" onclick="toggleMode()">Toggle</button>
   <nav>
-    <a href="#">Work</a>
+    <div class="dropdown">
+      <a href="#">Work</a>
+      <div class="dropdown-content" id="workList"></div>
+    </div>
     <a href="#">About</a>
     <a href="#">Contact</a>
   </nav>
@@ -240,7 +281,7 @@
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.querySelector('.loader').style.display = 'none';
-      }, 3000);  // Loader stays for 3 seconds to see font changes
+      }, 3000);
 
       const fonts = [
         'Staatliches',
@@ -251,14 +292,12 @@
       ];
       let fontIndex = 0;
       const loaderText = document.getElementById('loaderText');
+      loaderText.style.transition = 'font-family 1s ease-in-out';
 
-      // Add smooth transition for font change
-      loaderText.style.transition = 'font-family 1s ease-in-out';  // Increased transition time for smoother change
-      
       setInterval(() => {
         loaderText.style.fontFamily = `'${fonts[fontIndex]}', sans-serif`;
         fontIndex = (fontIndex + 1) % fonts.length;
-      }, 500);  // Font change interval (0.5 seconds)
+      }, 500);
     });
 
     const videos = [
@@ -275,6 +314,7 @@
     const mainPlayer = document.getElementById('mainPlayer');
     const thumbnailList = document.getElementById('thumbnails');
     const videoCaption = document.getElementById('videoCaption');
+    const workList = document.getElementById('workList');
 
     function updateVideo(index) {
       current = index;
@@ -297,12 +337,20 @@
     }
 
     videos.forEach((video, index) => {
+      // Thumbnails
       const img = document.createElement('img');
       img.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
       img.alt = video.title;
       img.onclick = () => updateVideo(index);
       if (index === current) img.classList.add('active');
       thumbnailList.appendChild(img);
+
+      // Work dropdown
+      const item = document.createElement('a');
+      item.href = `https://www.youtube.com/watch?v=${video.id}`;
+      item.textContent = video.title;
+      item.target = "_blank";
+      workList.appendChild(item);
     });
   </script>
 </body>
