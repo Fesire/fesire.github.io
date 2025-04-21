@@ -47,7 +47,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: hueGradient 5s infinite linear;
-      transition: font-family 0.5s ease;
+      transition: font-family 1s ease-in-out; /* Increased transition duration */
     }
 
     @keyframes hueGradient {
@@ -238,28 +238,28 @@
     }
 
     window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.querySelector('.loader').style.display = 'none';
-    }, 2000);
+      setTimeout(() => {
+        document.querySelector('.loader').style.display = 'none';
+      }, 3000);  // Loader stays for 3 seconds to see font changes
 
-    const fonts = [
-      'Staatliches',
-      'Syne',
-      'Bungee',
-      'Orbitron',
-      'Rubik Glitch',
-      'Etna'
-    ];
-    let fontIndex = 0;
-    const loaderText = document.getElementById('loaderText');
+      const fonts = [
+        'Staatliches',
+        'Syne',
+        'Bungee',
+        'Orbitron',
+        'Rubik Glitch',
+        'Etna'
+      ];
+      let fontIndex = 0;
+      const loaderText = document.getElementById('loaderText');
 
-    // Add smooth transition for font change
-    loaderText.style.transition = 'font-family 0.5s ease-in-out';
-    
-    setInterval(() => {
-      loaderText.style.fontFamily = `'${fonts[fontIndex]}', sans-serif`;
-      fontIndex = (fontIndex + 1) % fonts.length;
-    }, 1000);  // Faster change interval (1 second) // loader stays for 4s now, so more time to show font changes
+      // Add smooth transition for font change
+      loaderText.style.transition = 'font-family 1s ease-in-out';  // Increased transition time for smoother change
+      
+      setInterval(() => {
+        loaderText.style.fontFamily = `'${fonts[fontIndex]}', sans-serif`;
+        fontIndex = (fontIndex + 1) % fonts.length;
+      }, 500);  // Font change interval (0.5 seconds)
     });
 
     const videos = [
