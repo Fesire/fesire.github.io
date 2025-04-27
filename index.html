@@ -339,10 +339,10 @@
   </main>
 
   <script>
-    function toggleMode() {
+      function toggleMode() {
       document.body.classList.toggle('light-mode');
     }
-    
+
     function openContact() {
   document.getElementById('contactPopup').classList.add('active');
   document.getElementById('overlay').classList.add('active');
@@ -353,36 +353,62 @@ function closeContact() {
 }
 
     window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.querySelector('.loader').style.display = 'none';
-  }, 3000);
+      setTimeout(() => {
+        document.querySelector('.loader').style.display = 'none';
+      }, 3000);
 
-  const fonts = [
-    'Staatliches',
-    'Syne',
-    'Bungee',
-    'Orbitron',
-    'Etna'
-  ];
-  let fontIndex = 0;
-  const loaderText = document.getElementById('loaderText');
-  loaderText.style.transition = 'font-family 1s ease-in-out';
+      const fonts = [
+        'Staatliches',
+        'Syne',
+        'Bungee',
+        'Orbitron',
+        'Etna'
+      ];
+      let fontIndex = 0;
+      const loaderText = document.getElementById('loaderText');
+      loaderText.style.transition = 'font-family 1s ease-in-out';
 
-  setInterval(() => {
-    loaderText.style.fontFamily = `${fonts[fontIndex]}, sans-serif`;
-    fontIndex = (fontIndex + 1) % fonts.length;
-  }, 500);
-});
+      setInterval(() => {
+        loaderText.style.fontFamily = '${fonts[fontIndex]}', sans-serif;
+        fontIndex = (fontIndex + 1) % fonts.length;
+      }, 500);
+    });
 
-function updateVideo(index) {
-  current = index;
-  const video = videos[index];
-  mainPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
-  videoCaption.textContent = video.title;
-  Array.from(thumbnailList.children).forEach((img, i) => {
-    img.classList.toggle('active', i === index);
-  });
-}
+    const videos = [
+      { id: 'FnhjGa4giU0', title: 'Anoleaks G' },
+      { id: 'q1HzS-V3FCU', title: 'Mountain Frames' },
+      { id: 'mobVSFwHxbI', title: 'Under 25 Promo' },
+      { id: 'elkZaatn_ys', title: 'Neil MV' },
+      { id: 'Aw4zJsUem2Y', title: 'Prajnayu Ad' },
+      { id: 'p7Hm20_0NmI', title: 'Via Ferrata' },
+      { id: 'fhl__eMfsJs', title: 'Week of Welcome' }
+    ];
+
+    let current = 0;
+    const mainPlayer = document.getElementById('mainPlayer');
+    const thumbnailList = document.getElementById('thumbnails');
+    const videoCaption = document.getElementById('videoCaption');
+    const workList = document.getElementById('workList');
+
+    function updateVideo(index) {
+      current = index;
+      const video = videos[index];
+      mainPlayer.src = https://www.youtube.com/embed/${video.id}?autoplay=1;
+      videoCaption.textContent = video.title;
+      Array.from(thumbnailList.children).forEach((img, i) => {
+        img.classList.toggle('active', i === index);
+      });
+    }
+
+    function prevVideo() {
+      const newIndex = (current - 1 + videos.length) % videos.length;
+      updateVideo(newIndex);
+    }
+
+    function nextVideo() {
+      const newIndex = (current + 1) % videos.length;
+      updateVideo(newIndex);
+    }
 
 videos.forEach((video, index) => {
   // Thumbnails
