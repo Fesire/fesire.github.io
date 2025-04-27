@@ -360,7 +360,6 @@ function closeContact() {
       const fonts = [
         'Staatliches',
         'Syne',
-        'Bungee',
         'Orbitron',
         'Etna'
       ];
@@ -371,7 +370,7 @@ function closeContact() {
       setInterval(() => {
         loaderText.style.fontFamily = `${fonts[fontIndex]}, sans-serif`;
         fontIndex = (fontIndex + 1) % fonts.length;
-      }, 500);
+      }, 300);
     });
 
     const videos = [
