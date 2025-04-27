@@ -237,6 +237,62 @@
         box-sizing: border-box;
       }
     }
+    .contact-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.4); /* semi-transparent */
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.contact-content {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  animation: popUp 0.4s ease;
+  max-width: 90%;
+  width: 400px;
+}
+
+.contact-content a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.contact-content a:hover {
+  opacity: 0.7;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
   </style>
 </head>
 <body>
@@ -251,7 +307,7 @@
       <div class="dropdown-content" id="workList"></div>
     </div>
     <a href="#">About</a>
-    <a href="#">Contact</a>
+    <a href="#" onclick="openContact()">Contact</a>
   </nav>
 
   <main>
@@ -352,6 +408,22 @@
       item.target = "_blank";
       workList.appendChild(item);
     });
+    function openContact() {
+  document.getElementById('contactModal').style.display = 'flex';
+}
+
+function closeContact() {
+  document.getElementById('contactModal').style.display = 'none';
+}
+
   </script>
+  <div id="contactModal" class="contact-modal">
+    <div class="contact-content">
+      <span class="close-btn" onclick="closeContact()">&times;</span>
+      <h2>Contact</h2>
+      <p>Phone: <a href="tel:+919496819579">+91 94968 19579</a></p>
+      <p>Email: <a href="mailto:fesirec@gmail.com">fesirec@gmail.com</a></p>
+    </div>
+  </div>
 </body>
 </html>
