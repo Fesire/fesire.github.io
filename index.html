@@ -251,7 +251,7 @@
       <div class="dropdown-content" id="workList"></div>
     </div>
     <a href="#">About</a>
-    <a href="#">Contact</a>
+    <a href="javascript:void(0);" onclick="openContact()">Contact</a>
   </nav>
 
   <main>
@@ -260,6 +260,11 @@
       <p>Sarathchandran P</p>
     </div>
 
+    <div id="contactPopup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#111; padding:20px; border-radius:10px; color:white; text-align:center; z-index:1001;">
+      <p>Contact Number: +91 9876543210</p>
+      <button onclick="closeContact()" style="margin-top:10px; padding:5px 15px;">Close</button>
+    </div>
+    
     <section class="gallery">
       <div class="main-video">
         <iframe id="mainPlayer" src="https://www.youtube.com/embed/FnhjGa4giU0" frameborder="0" allowfullscreen allow="autoplay"></iframe>
@@ -277,81 +282,63 @@
     function toggleMode() {
       document.body.classList.toggle('light-mode');
     }
+    
+    function openContact() {
+  document.getElementById('contactPopup').style.display = 'block';
+}
+
+function closeContact() {
+  document.getElementById('contactPopup').style.display = 'none';
+}
 
     window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.querySelector('.loader').style.display = 'none';
-      }, 3000);
+  setTimeout(() => {
+    document.querySelector('.loader').style.display = 'none';
+  }, 3000);
 
-      const fonts = [
-        'Staatliches',
-        'Syne',
-        'Bungee',
-        'Orbitron',
-        'Etna'
-      ];
-      let fontIndex = 0;
-      const loaderText = document.getElementById('loaderText');
-      loaderText.style.transition = 'font-family 1s ease-in-out';
+  const fonts = [
+    'Staatliches',
+    'Syne',
+    'Bungee',
+    'Orbitron',
+    'Etna'
+  ];
+  let fontIndex = 0;
+  const loaderText = document.getElementById('loaderText');
+  loaderText.style.transition = 'font-family 1s ease-in-out';
 
-      setInterval(() => {
-        loaderText.style.fontFamily = '${fonts[fontIndex]}', sans-serif;
-        fontIndex = (fontIndex + 1) % fonts.length;
-      }, 500);
-    });
+  setInterval(() => {
+    loaderText.style.fontFamily = `${fonts[fontIndex]}, sans-serif`;
+    fontIndex = (fontIndex + 1) % fonts.length;
+  }, 500);
+});
 
-    const videos = [
-      { id: 'FnhjGa4giU0', title: 'Anoleaks G' },
-      { id: 'q1HzS-V3FCU', title: 'Mountain Frames' },
-      { id: 'mobVSFwHxbI', title: 'Under 25 Promo' },
-      { id: 'elkZaatn_ys', title: 'Neil MV' },
-      { id: 'Aw4zJsUem2Y', title: 'Prajnayu Ad' },
-      { id: 'p7Hm20_0NmI', title: 'Via Ferrata' },
-      { id: 'fhl__eMfsJs', title: 'Week of Welcome' }
-    ];
+function updateVideo(index) {
+  current = index;
+  const video = videos[index];
+  mainPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+  videoCaption.textContent = video.title;
+  Array.from(thumbnailList.children).forEach((img, i) => {
+    img.classList.toggle('active', i === index);
+  });
+}
 
-    let current = 0;
-    const mainPlayer = document.getElementById('mainPlayer');
-    const thumbnailList = document.getElementById('thumbnails');
-    const videoCaption = document.getElementById('videoCaption');
-    const workList = document.getElementById('workList');
+videos.forEach((video, index) => {
+  // Thumbnails
+  const img = document.createElement('img');
+  img.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+  img.alt = video.title;
+  img.onclick = () => updateVideo(index);
+  if (index === current) img.classList.add('active');
+  thumbnailList.appendChild(img);
 
-    function updateVideo(index) {
-      current = index;
-      const video = videos[index];
-      mainPlayer.src = https://www.youtube.com/embed/${video.id}?autoplay=1;
-      videoCaption.textContent = video.title;
-      Array.from(thumbnailList.children).forEach((img, i) => {
-        img.classList.toggle('active', i === index);
-      });
-    }
-
-    function prevVideo() {
-      const newIndex = (current - 1 + videos.length) % videos.length;
-      updateVideo(newIndex);
-    }
-
-    function nextVideo() {
-      const newIndex = (current + 1) % videos.length;
-      updateVideo(newIndex);
-    }
-
-    videos.forEach((video, index) => {
-      // Thumbnails
-      const img = document.createElement('img');
-      img.src = https://img.youtube.com/vi/${video.id}/hqdefault.jpg;
-      img.alt = video.title;
-      img.onclick = () => updateVideo(index);
-      if (index === current) img.classList.add('active');
-      thumbnailList.appendChild(img);
-
-      // Work dropdown
-      const item = document.createElement('a');
-      item.href = https://www.youtube.com/watch?v=${video.id};
-      item.textContent = video.title;
-      item.target = "_blank";
-      workList.appendChild(item);
-    });
+  // Work dropdown
+  const item = document.createElement('a');
+  item.href = `https://www.youtube.com/watch?v=${video.id}`;
+  item.textContent = video.title;
+  item.target = "_blank";
+  workList.appendChild(item);
+});
   </script>
 </body>
 </html>
