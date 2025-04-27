@@ -369,7 +369,7 @@ function closeContact() {
       loaderText.style.transition = 'font-family 1s ease-in-out';
 
       setInterval(() => {
-        loaderText.style.fontFamily = '${fonts[fontIndex]}', sans-serif;
+        loaderText.style.fontFamily = '${fonts[fontIndex]}, sans-serif';
         fontIndex = (fontIndex + 1) % fonts.length;
       }, 500);
     });
@@ -393,7 +393,7 @@ function closeContact() {
     function updateVideo(index) {
       current = index;
       const video = videos[index];
-      mainPlayer.src = https://www.youtube.com/embed/${video.id}?autoplay=1;
+      mainPlayer.src = 'https://www.youtube.com/embed/${video.id}?autoplay=1';
       videoCaption.textContent = video.title;
       Array.from(thumbnailList.children).forEach((img, i) => {
         img.classList.toggle('active', i === index);
