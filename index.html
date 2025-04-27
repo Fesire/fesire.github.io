@@ -251,7 +251,7 @@
       <div class="dropdown-content" id="workList"></div>
     </div>
     <a href="#">About</a>
-    <a href="#contact">Contact</a>
+    <a href="#">Contact</a>
   </nav>
 
   <main>
@@ -270,11 +270,6 @@
         <button onclick="nextVideo()">Next →</button>
       </div>
       <div class="thumbnail-list" id="thumbnails"></div>
-    </section>
-    <section class="contact" id="contact" style="margin-top:100px; text-align:center;">
-      <h2 style="font-family: 'Syne', sans-serif; font-size:2.5rem;">Contact</h2>
-      <p style="margin:10px 0 30px; font-size:1rem;">Feel free to reach out via email!</p>
-      <a href="mailto:sarathchandranp007@gmail.com" style="display:inline-block; padding:10px 20px; border:1px solid var(--text-color); color:var(--text-color); text-decoration:none; transition:all 0.3s;">Email Me</a>
     </section>
   </main>
 
@@ -300,7 +295,7 @@
       loaderText.style.transition = 'font-family 1s ease-in-out';
 
       setInterval(() => {
-        loaderText.style.fontFamily = `'${fonts[fontIndex]}', sans-serif`;
+        loaderText.style.fontFamily = '${fonts[fontIndex]}', sans-serif;
         fontIndex = (fontIndex + 1) % fonts.length;
       }, 500);
     });
@@ -324,7 +319,7 @@
     function updateVideo(index) {
       current = index;
       const video = videos[index];
-      mainPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+      mainPlayer.src = https://www.youtube.com/embed/${video.id}?autoplay=1;
       videoCaption.textContent = video.title;
       Array.from(thumbnailList.children).forEach((img, i) => {
         img.classList.toggle('active', i === index);
@@ -344,7 +339,7 @@
     videos.forEach((video, index) => {
       // Thumbnails
       const img = document.createElement('img');
-      img.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+      img.src = https://img.youtube.com/vi/${video.id}/hqdefault.jpg;
       img.alt = video.title;
       img.onclick = () => updateVideo(index);
       if (index === current) img.classList.add('active');
@@ -352,7 +347,7 @@
 
       // Work dropdown
       const item = document.createElement('a');
-      item.href = `https://www.youtube.com/watch?v=${video.id}`;
+      item.href = https://www.youtube.com/watch?v=${video.id};
       item.textContent = video.title;
       item.target = "_blank";
       workList.appendChild(item);
