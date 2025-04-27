@@ -237,6 +237,61 @@
         box-sizing: border-box;
       }
     }
+    .contact-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: var(--bg-color);
+  color: var(--text-color);
+  padding: 30px;
+  border: 1px solid var(--text-color);
+  border-radius: 10px;
+  z-index: 1001;
+  transition: transform 0.3s ease;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.contact-popup.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.contact-popup .popup-content a {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+.contact-popup button {
+  margin-top: 20px;
+  padding: 8px 20px;
+  background: none;
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.contact-popup button:hover {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: none;
+}
+.overlay.active {
+  display: block;
+}
   </style>
 </head>
 <body>
@@ -251,7 +306,7 @@
       <div class="dropdown-content" id="workList"></div>
     </div>
     <a href="#">About</a>
-    <a href="javascript:void(0);" onclick="openContact()">Contact</a>
+    <a href="#" onclick="openContact()">Contact</a>
   </nav>
 
   <main>
@@ -260,10 +315,15 @@
       <p>Sarathchandran P</p>
     </div>
 
-    <div id="contactPopup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#111; padding:20px; border-radius:10px; color:white; text-align:center; z-index:1001;">
-      <p>Contact Number: +91 9876543210</p>
-      <button onclick="closeContact()" style="margin-top:10px; padding:5px 15px;">Close</button>
+    <div class="contact-popup" id="contactPopup">
+      <div class="popup-content">
+        <h2>Contact Me</h2>
+        <p>📞 Phone: <a href="tel:+919876543210">+91 98765 43210</a></p>
+        <p>✉️ Email: <a href="mailto:sarathchandranp007@gmail.com">sarathchandranp007@gmail.com</a></p>
+        <button onclick="closeContact()">Close</button>
+      </div>
     </div>
+    <div class="overlay" id="overlay"></div>    
     
     <section class="gallery">
       <div class="main-video">
@@ -284,11 +344,12 @@
     }
     
     function openContact() {
-  document.getElementById('contactPopup').style.display = 'block';
+  document.getElementById('contactPopup').classList.add('active');
+  document.getElementById('overlay').classList.add('active');
 }
-
 function closeContact() {
-  document.getElementById('contactPopup').style.display = 'none';
+  document.getElementById('contactPopup').classList.remove('active');
+  document.getElementById('overlay').classList.remove('active');
 }
 
     window.addEventListener('load', () => {
