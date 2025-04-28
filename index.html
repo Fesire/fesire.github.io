@@ -237,61 +237,63 @@
         box-sizing: border-box;
       }
     }
+
     .contact-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  background: var(--bg-color);
-  color: var(--text-color);
-  padding: 30px;
-  border: 1px solid var(--text-color);
-  border-radius: 10px;
-  z-index: 1001;
-  transition: transform 0.3s ease;
-  width: 80%;
-  max-width: 400px;
-  text-align: center;
-}
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding: 30px;
+      border: 1px solid var(--text-color);
+      border-radius: 10px;
+      z-index: 1001;
+      transition: transform 0.3s ease;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+    }
 
-.contact-popup.active {
-  transform: translate(-50%, -50%) scale(1);
-}
+    .contact-popup.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
 
-.contact-popup .popup-content a {
-  color: var(--text-color);
-  text-decoration: underline;
-}
+    .contact-popup .popup-content a {
+      color: var(--text-color);
+      text-decoration: underline;
+    }
 
-.contact-popup button {
-  margin-top: 20px;
-  padding: 8px 20px;
-  background: none;
-  border: 1px solid var(--text-color);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: all 0.3s;
-}
+    .contact-popup button {
+      margin-top: 20px;
+      padding: 8px 20px;
+      background: none;
+      border: 1px solid var(--text-color);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
 
-.contact-popup button:hover {
-  background-color: var(--text-color);
-  color: var(--bg-color);
-}
+    .contact-popup button:hover {
+      background-color: var(--text-color);
+      color: var(--bg-color);
+    }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(5px);
-  z-index: 1000;
-  display: none;
-}
-.overlay.active {
-  display: block;
-}
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -327,7 +329,7 @@
     
     <section class="gallery">
       <div class="main-video">
-        <iframe id="mainPlayer" src="https://youtu.be/xXQob8BFkR0" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+        <iframe id="mainPlayer" src="https://www.youtube.com/embed/xXQob8BFkR0?autoplay=1&mute=1" frameborder="0" allowfullscreen allow="autoplay"></iframe>
       </div>
       <div class="caption" id="videoCaption">Anoleaks - Bars To Your Dome ft. Ron 101</div>
       <div class="nav-arrows">
@@ -339,18 +341,19 @@
   </main>
 
   <script>
-      function toggleMode() {
+    function toggleMode() {
       document.body.classList.toggle('light-mode');
     }
 
     function openContact() {
-  document.getElementById('contactPopup').classList.add('active');
-  document.getElementById('overlay').classList.add('active');
-}
-function closeContact() {
-  document.getElementById('contactPopup').classList.remove('active');
-  document.getElementById('overlay').classList.remove('active');
-}
+      document.getElementById('contactPopup').classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+    }
+
+    function closeContact() {
+      document.getElementById('contactPopup').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
 
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -375,7 +378,7 @@ function closeContact() {
 
     const videos = [
       { id: 'xXQob8BFkR0', title: 'Anoleaks - Bars To Your Dome ft. Ron 101' },
-      { id: 'FnhjGa4giU0', title: 'Anoleaks G' },
+      {  id: 'FnhjGa4giU0', title: 'Anoleaks G' },
       { id: 'q1HzS-V3FCU', title: 'Mountain Frames' },
       { id: 'mobVSFwHxbI', title: 'Under 25 Promo' },
       { id: 'elkZaatn_ys', title: 'Neil MV' },
@@ -384,48 +387,39 @@ function closeContact() {
       { id: 'fhl__eMfsJs', title: 'Week of Welcome' }
     ];
 
-    let current = 0;
-    const mainPlayer = document.getElementById('mainPlayer');
-    const thumbnailList = document.getElementById('thumbnails');
-    const videoCaption = document.getElementById('videoCaption');
-    const workList = document.getElementById('workList');
+    let currentVideoIndex = 0;
 
-    function updateVideo(index) {
-      current = index;
+    const mainPlayer = document.getElementById('mainPlayer');
+    const videoCaption = document.getElementById('videoCaption');
+    const thumbnailsContainer = document.getElementById('thumbnails');
+    
+    function loadVideo(index) {
       const video = videos[index];
-      mainPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+      mainPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1&mute=1`;
       videoCaption.textContent = video.title;
-      Array.from(thumbnailList.children).forEach((img, i) => {
-        img.classList.toggle('active', i === index);
+    }
+
+    function createThumbnails() {
+      videos.forEach((video, index) => {
+        const img = document.createElement('img');
+        img.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+        img.alt = video.title;
+        img.addEventListener('click', () => loadVideo(index));
+        thumbnailsContainer.appendChild(img);
       });
     }
 
     function prevVideo() {
-      const newIndex = (current - 1 + videos.length) % videos.length;
-      updateVideo(newIndex);
+      currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+      loadVideo(currentVideoIndex);
     }
 
     function nextVideo() {
-      const newIndex = (current + 1) % videos.length;
-      updateVideo(newIndex);
+      currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+      loadVideo(currentVideoIndex);
     }
 
-videos.forEach((video, index) => {
-  // Thumbnails
-  const img = document.createElement('img');
-  img.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
-  img.alt = video.title;
-  img.onclick = () => updateVideo(index);
-  if (index === current) img.classList.add('active');
-  thumbnailList.appendChild(img);
-
-  // Work dropdown
-  const item = document.createElement('a');
-  item.href = `https://www.youtube.com/watch?v=${video.id}`;
-  item.textContent = video.title;
-  item.target = "_blank";
-  workList.appendChild(item);
-});
+    createThumbnails();
   </script>
 </body>
 </html>
