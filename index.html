@@ -413,7 +413,7 @@ function closeContact() {
 videos.forEach((video, index) => {
   // Thumbnails
   const img = document.createElement('img');
-  img.src = `https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`;
+  img.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
   img.alt = video.title;
   img.onclick = () => updateVideo(index);
   if (index === current) img.classList.add('active');
