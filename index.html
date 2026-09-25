@@ -1,425 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fesire.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Etna&family=Staatliches&family=Syne&family=Bungee&family=Orbitron&family=Rubik+Glitch&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-color: #000;
-      --text-color: #fff;
-    }
-
-    body.light-mode {
-      --bg-color: #fff;
-      --text-color: #000;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: sans-serif;
-      transition: background-color 0.5s, color 0.5s;
-    }
-
-    .loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100vw;
-      background-color: var(--bg-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .loader h1 {
-      font-size: 6rem;
-      background: linear-gradient(90deg, #ff0000, #00ffcc, #0099ff, #ff00ff);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: hueGradient 5s infinite linear;
-      transition: font-family 1s ease-in-out;
-    }
-
-    @keyframes hueGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    main {
-      padding: 60px 30px 30px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .intro {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .intro h1 {
-      font-family: 'Etna', sans-serif;
-      font-size: 4rem;
-      margin: 0;
-    }
-
-    .intro p {
-      font-size: 1rem;
-      letter-spacing: 2px;
-    }
-
-    nav {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    nav a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      transition: color 0.3s;
-      position: relative;
-    }
-
-    nav a:hover {
-      opacity: 0.6;
-    }
-
-    .toggle {
-      position: absolute;
-      top: 20px;
-      left: 30px;
-      background: none;
-      border: 1px solid var(--text-color);
-      color: var(--text-color);
-      padding: 5px 10px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      transition: all 0.3s;
-    }
-
-    .toggle:hover {
-      background-color: var(--text-color);
-      color: var(--bg-color);
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 30px;
-      right: 0;
-      background-color: #111;
-      min-width: 200px;
-      border-radius: 10px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-      z-index: 999;
-      padding: 10px 0;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .dropdown-content a {
-      color: #fff;
-      padding: 10px 20px;
-      display: block;
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: background 0.2s;
-    }
-
-    .dropdown-content a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .gallery {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 80px;
-    }
-
-    .main-video {
-      width: 80vw;
-      max-width: 960px;
-      height: 45vw;
-      max-height: 540px;
-      position: relative;
-    }
-
-    .main-video iframe {
-      width: 100%;
-      height: 100%;
-    }
-
-    .nav-arrows {
-      display: flex;
-      justify-content: space-between;
-      width: 80vw;
-      max-width: 960px;
-      margin: 20px 0;
-    }
-
-    .nav-arrows button {
-      background: none;
-      border: 1px solid var(--text-color);
-      color: var(--text-color);
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .nav-arrows button:hover {
-      background-color: var(--text-color);
-      color: var(--bg-color);
-    }
-
-    .thumbnail-list {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding: 10px;
-      max-width: 100vw;
-      box-sizing: border-box;
-    }
-
-    .thumbnail-list img {
-      height: 90px;
-      cursor: pointer;
-      opacity: 0.6;
-      transition: transform 0.3s, opacity 0.3s;
-      flex-shrink: 0;
-    }
-
-    .thumbnail-list img.active,
-    .thumbnail-list img:hover {
-      transform: scale(1.05);
-      opacity: 1;
-    }
-
-    .caption {
-      margin-top: 20px;
-      font-size: 1rem;
-      text-align: center;
-      letter-spacing: 1px;
-    }
-
-    @media (max-width: 600px) {
-      .main-video {
-        width: 100vw;
-        height: 56.25vw;
-      }
-      .nav-arrows {
-        width: 100vw;
-        padding: 0 10px;
-        box-sizing: border-box;
-      }
-    }
-
-    .contact-popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: var(--bg-color);
-      color: var(--text-color);
-      padding: 30px;
-      border: 1px solid var(--text-color);
-      border-radius: 10px;
-      z-index: 1001;
-      transition: transform 0.3s ease;
-      width: 80%;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .contact-popup.active {
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    .contact-popup .popup-content a {
-      color: var(--text-color);
-      text-decoration: underline;
-    }
-
-    .contact-popup button {
-      margin-top: 20px;
-      padding: 8px 20px;
-      background: none;
-      border: 1px solid var(--text-color);
-      color: var(--text-color);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .contact-popup button:hover {
-      background-color: var(--text-color);
-      color: var(--bg-color);
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(5px);
-      z-index: 1000;
-      display: none;
-    }
-
-    .overlay.active {
-      display: block;
-    }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="Selected films, music videos and visual stories by Fesire — Sarathchandran P. Director and editor based in India.">
+<meta property="og:title" content="Fesire. — Films & visual stories"><meta property="og:description" content="A selection of music videos, brand films and journeys. The work of Sarathchandran P."><meta property="og:type" content="website"><meta property="og:url" content="https://fesire.github.io/"><meta property="og:image" content="https://img.youtube.com/vi/xXQob8BFkR0/hqdefault.jpg">
+<title>Fesire. — Films & visual stories</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('fesire-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="stylesheet" href="styles.css?v=20260925"><script src="script.js?v=20260925" defer></script>
 </head>
 <body>
-  <div class="loader">
-    <h1 id="loaderText">Fesire.</h1>
-  </div>
-
-  <button class="toggle" onclick="toggleMode()">Toggle</button>
-  <nav>
-    <div class="dropdown">
-      <a href="#">Work</a>
-      <div class="dropdown-content" id="workList"></div>
-    </div>
-    <a href="#">About</a>
-    <a href="#" onclick="openContact()">Contact</a>
-  </nav>
-
-  <main>
-    <div class="intro">
-      <h1>Fesire.</h1>
-      <p>Sarathchandran P</p>
-    </div>
-
-    <div class="contact-popup" id="contactPopup">
-      <div class="popup-content">
-        <h2>Contact Me</h2>
-        <p>📞 Phone: <a href="tel:+919496819579">+91 94968 19579</a></p>
-        <p>✉️ Email: <a href="mailto:fesirec@gmail.com">fesirec@gmail.com</a></p>
-        <button onclick="closeContact()">Close</button>
-      </div>
-    </div>
-    <div class="overlay" id="overlay"></div>    
-    
-    <section class="gallery">
-      <div class="main-video">
-        <iframe id="mainPlayer" src="https://www.youtube.com/embed/xXQob8BFkR0?autoplay=1&mute=1" frameborder="0" allowfullscreen allow="autoplay"></iframe>
-      </div>
-      <div class="caption" id="videoCaption">Anoleaks - Bars To Your Dome ft. Ron 101</div>
-      <div class="nav-arrows">
-        <button onclick="prevVideo()">← Prev</button>
-        <button onclick="nextVideo()">Next →</button>
-      </div>
-      <div class="thumbnail-list" id="thumbnails"></div>
-    </section>
-  </main>
-
-  <script>
-    function toggleMode() {
-      document.body.classList.toggle('light-mode');
-    }
-
-    function openContact() {
-      document.getElementById('contactPopup').classList.add('active');
-      document.getElementById('overlay').classList.add('active');
-    }
-
-    function closeContact() {
-      document.getElementById('contactPopup').classList.remove('active');
-      document.getElementById('overlay').classList.remove('active');
-    }
-
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.querySelector('.loader').style.display = 'none';
-      }, 3000);
-
-      const fonts = [
-        'Marion',
-        'Syne',
-        'Orbitron',
-        'Etna'
-      ];
-      let fontIndex = 0;
-      const loaderText = document.getElementById('loaderText');
-      loaderText.style.transition = 'font-family 1s ease-in-out';
-
-      setInterval(() => {
-        loaderText.style.fontFamily = `${fonts[fontIndex]}, sans-serif`;
-        fontIndex = (fontIndex + 1) % fonts.length;
-      }, 200);
-    });
-
-    const videos = [
-      { id: 'xXQob8BFkR0', title: 'Anoleaks - Bars To Your Dome ft. Ron 101' },
-      {  id: 'FnhjGa4giU0', title: 'Anoleaks G' },
-      { id: 'q1HzS-V3FCU', title: 'Mountain Frames' },
-      { id: 'mobVSFwHxbI', title: 'Under 25 Promo' },
-      { id: 'elkZaatn_ys', title: 'Neil MV' },
-      { id: 'Aw4zJsUem2Y', title: 'Prajnayu Ad' },
-      { id: 'p7Hm20_0NmI', title: 'Via Ferrata' },
-      { id: 'fhl__eMfsJs', title: 'Week of Welcome' }
-    ];
-
-    let currentVideoIndex = 0;
-
-    const mainPlayer = document.getElementById('mainPlayer');
-    const videoCaption = document.getElementById('videoCaption');
-    const thumbnailsContainer = document.getElementById('thumbnails');
-    
-    function loadVideo(index) {
-      const video = videos[index];
-      mainPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1&mute=1`;
-      videoCaption.textContent = video.title;
-    }
-
-    function createThumbnails() {
-      videos.forEach((video, index) => {
-        const img = document.createElement('img');
-        img.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
-        img.alt = video.title;
-        img.addEventListener('click', () => loadVideo(index));
-        thumbnailsContainer.appendChild(img);
-      });
-    }
-
-    function prevVideo() {
-      currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
-      loadVideo(currentVideoIndex);
-    }
-
-    function nextVideo() {
-      currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-      loadVideo(currentVideoIndex);
-    }
-
-    createThumbnails();
-  </script>
-</body>
-</html>
+<a class="skip-link" href="#work">Skip to work</a>
+<header class="site-header shell">
+<a class="wordmark" href="#top" aria-label="Fesire, back to top">f<span class="brand-dot">.</span></a>
+<nav aria-label="Main navigation"><a href="#work">Work</a><a href="#about">About</a><a href="mailto:fesirec@gmail.com" data-contact>Contact <span aria-hidden="true">↗</span></a></nav>
+<button class="theme-toggle icon-button" type="button" aria-label="Switch to light theme" hidden><svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg></button>
+</header>
+<main id="top">
+<section class="intro shell" aria-labelledby="intro-title">
+<div class="intro-top"><p class="eyebrow">Independent creative / India</p><p class="eyebrow intro-index">Portfolio — 01 / 08</p></div>
+<div class="intro-main"><h1 id="intro-title">Fesire<span class="title-dot">.</span></h1><div class="intro-description"><p>Films, music &amp;<br>everything in motion.</p><a class="text-link" href="#work">Explore the work <span aria-hidden="true">↓</span></a></div></div>
+<div class="intro-bottom"><p>Sarathchandran P</p><p>Direction <span>/</span> Editing <span>/</span> Visual storytelling</p></div>
+</section>
+<section class="work shell" id="work" aria-labelledby="work-title">
+<div class="work-toolbar"><h2 class="eyebrow" id="work-title">Selected work <span class="work-count">08</span></h2><div class="filters" role="group" aria-label="Filter projects" hidden><button type="button" data-filter="all" aria-pressed="true">All <span>08</span></button><button type="button" data-filter="music" aria-pressed="false">Music videos</button><button type="button" data-filter="brand" aria-pressed="false">Brand &amp; culture</button><button type="button" data-filter="travel" aria-pressed="false">Travel</button></div></div>
+<p id="filter-status" class="sr-only" aria-live="polite" aria-atomic="true"></p><div class="project-grid"><article class="project project-featured" data-category="music">
+<a class="project-link" href="https://www.youtube.com/watch?v=xXQob8BFkR0" data-video="xXQob8BFkR0" data-title="Anoleaks - Bars To Your Dome ft. Ron 101" data-kind="Music video" aria-label="Watch Anoleaks - Bars To Your Dome ft. Ron 101">
+<div class="project-image"><img src="https://img.youtube.com/vi/xXQob8BFkR0/maxresdefault.jpg" data-fallback="https://img.youtube.com/vi/xXQob8BFkR0/hqdefault.jpg" fetchpriority="high" width="1280" height="720" alt=""><span class="feature-label eyebrow">In the frame <span aria-hidden="true">↙</span></span><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7Z"/></svg></span><span class="watch-label">Watch film <span aria-hidden="true">↗</span></span></div>
+<div class="project-caption"><span class="project-number">01</span><div><h3>Bars To Your Dome</h3><p>Anoleaks ft. Ron 101</p></div><span class="project-type">Music video</span><span class="project-arrow" aria-hidden="true">↗</span></div></a></article>
+<article class="project " data-category="music">
+<a class="project-link" href="https://www.youtube.com/watch?v=FnhjGa4giU0" data-video="FnhjGa4giU0" data-title="Anoleaks G" data-kind="Music video" aria-label="Watch Anoleaks G">
+<div class="project-image"><img src="https://img.youtube.com/vi/FnhjGa4giU0/maxresdefault.jpg" data-fallback="https://img.youtube.com/vi/FnhjGa4giU0/hqdefault.jpg" loading="lazy" width="480" height="360" alt=""><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7Z"/></svg></span><span class="watch-label">Watch film <span aria-hidden="true">↗</span></span></div>
+<div class="project-caption"><span class="project-number">02</span><div><h3>Anoleaks G</h3><p>Music video</p></div><span class="project-arrow" aria-hidden="true">↗</span></div></a></article>
+<article class="project " data-category="travel">
+<a class="project-link" href="https://www.youtube.com/watch?v=q1HzS-V3FCU" data-video="q1HzS-V3FCU" data-title="Mountain Frames" data-kind="Travel film" aria-label="Watch Mountain Frames">
+<div class="project-image"><img src="https://img.youtube.com/vi/q1HzS-V3FCU/maxresdefault.jpg" data-fallback="https://img.youtube.com/vi/q1HzS-V3FCU/hqdefault.jpg" loading="lazy" width="480" height="360" alt=""><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7Z"/></svg></span><span class="watch-label">Watch film <span aria-hidden="true">↗</span></span></div>
+<div class="project-caption"><span class="project-number">03</span><div><h3>Mountain Frames</h3><p>Travel film</p></div><span class="project-arrow" aria-hidden="true">↗</span></div></a></article>
+<article class="project " data-category="brand">
+<a class="project-link" href="https://www.youtube.com/watch?v=mobVSFwHxbI" data-video="mobVSFwHxbI" data-title="Under 25 Promo" data-kind="Brand &amp; culture" aria-label="Watch Under 25 Promo">
+<div class="project-image"><img src="https://img.youtube.com/vi/mobVSFwHxbI/maxresdefault.jpg" data-fallback="https://img.youtube.com/vi/mobVSFwHxbI/hqdefault.jpg" loading="lazy" width="480" height="360" alt=""><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7Z"/></svg></span><span class="watch-label">Watch film <span aria-hidden="true">↗</span></span></div>
+<div class="project-caption"><span class="project-number">04</span><div><h3>Under 25</h3><p>Promo film</p></div><span class="project-arrow" aria-hidden="true">↗</span></div></a></article>
+<article class="project " data-category="music">
+<a class="project-link" href="https://www.youtube.com/watch?v=elkZaatn_ys" data-video="elkZaatn_ys" data-title="Neil MV" data-kind="Music video" aria-label="Watch Neil MV">
+<div class="project-image"><img src="https://img.youtube.com/vi/elkZaatn_ys/maxresdefault.jpg" data-fallback="https://img.youtube.com/vi/elkZaatn_ys/hqdefault.jpg" loading="lazy" width="480" height="360" alt=""><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7Z"/></svg></span><span class="watch-label">Watch film <span aria-hidden="true">↗</span></span></div>
+<div class="project-caption"><span class="project-number">05</span><div><h3>Neil</h3><p>Music video</p></div><span class="project-arrow" aria-hidden="true">↗</span></div></a></article>
+<article class="project " data-category="brand">
+<a class="project-link" href="https://www.youtube.com/watch?v=Aw4zJsUem2Y" data-video="Aw4zJsUem2Y" data-title="Prajnayu Ad" data-kind="Brand &amp; culture" aria-label="Watch Prajnayu Ad">
+<div class="project-image"><img src="https://img.youtube.com/vi/Aw4zJsUem2Y/maxresdefault.jpg" data-fallback="https://img.youtube.com/vi/Aw4zJsUem2Y/hqdefault.jpg" loading="lazy" width="480" height="360" alt=""><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7Z"/></svg></span><span class="watch-label">Watch film <span aria-hidden="true">↗</span></span></div>
+<div class="project-caption"><span class="project-number">06</span><div><h3>Prajnayu</h3><p>Brand film</p></div><span class="project-arrow" aria-hidden="true">↗</span></div></a></article>
+<article class="project " data-category="travel">
+<a class="project-link" href="https://www.youtube.com/watch?v=p7Hm20_0NmI" data-video="p7Hm20_0NmI" data-title="Via Ferrata" data-kind="Travel film" aria-label="Watch Via Ferrata">
+<div class="project-image"><img src="https://img.youtube.com/vi/p7Hm20_0NmI/maxresdefault.jpg" data-fallback="https://img.youtube.com/vi/p7Hm20_0NmI/hqdefault.jpg" loading="lazy" width="480" height="360" alt=""><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7Z"/></svg></span><span class="watch-label">Watch film <span aria-hidden="true">↗</span></span></div>
+<div class="project-caption"><span class="project-number">07</span><div><h3>Via Ferrata</h3><p>Travel film</p></div><span class="project-arrow" aria-hidden="true">↗</span></div></a></article>
+<article class="project " data-category="brand">
+<a class="project-link" href="https://www.youtube.com/watch?v=fhl__eMfsJs" data-video="fhl__eMfsJs" data-title="Week of Welcome" data-kind="Brand &amp; culture" aria-label="Watch Week of Welcome">
+<div class="project-image"><img src="https://img.youtube.com/vi/fhl__eMfsJs/maxresdefault.jpg" data-fallback="https://img.youtube.com/vi/fhl__eMfsJs/hqdefault.jpg" loading="lazy" width="480" height="360" alt=""><span class="play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7Z"/></svg></span><span class="watch-label">Watch film <span aria-hidden="true">↗</span></span></div>
+<div class="project-caption"><span class="project-number">08</span><div><h3>Week of Welcome</h3><p>Culture &amp; events</p></div><span class="project-arrow" aria-hidden="true">↗</span></div></a></article></div>
+<div class="work-end"><span class="eyebrow">A few things I've made.</span><span aria-hidden="true">↙</span></div>
+</section>
+<section class="about shell" id="about" aria-labelledby="about-title"><div class="section-label"><span class="eyebrow">Behind the frames</span><span class="small-star" aria-hidden="true">✳</span></div><div class="about-content"><h2 id="about-title">A feeling first.<br>A film follows.</h2><p>I'm Sarathchandran P — Fesire. I direct, edit and create visual stories across music, brands and the places I find myself in.</p><p>From the first idea to the final frame, I like making things that move you.</p><div class="disciplines"><span>Direction</span><span>Editing</span><span>Visual storytelling</span></div></div></section>
+<section class="contact-section shell" aria-labelledby="contact-title"><p class="eyebrow">Have something in mind?</p><a class="contact-heading" href="mailto:fesirec@gmail.com" data-contact><h2 id="contact-title">Let's make<br>something move.</h2><span class="contact-arrow" aria-hidden="true">↗</span></a><div class="contact-details"><a href="mailto:fesirec@gmail.com">fesirec@gmail.com <span aria-hidden="true">↗</span></a><a href="tel:+919496819579">+91 94968 19579 <span aria-hidden="true">↗</span></a></div></section>
+</main>
+<footer class="site-footer shell"><a class="footer-wordmark" href="#top">Fesire.</a><p>Independent by nature.</p><a class="text-link" href="#top">Back to top <span aria-hidden="true">↑</span></a></footer>
+<dialog class="film-dialog" id="film-dialog" aria-labelledby="film-title"><div class="dialog-top"><p class="eyebrow">Now playing</p><button class="icon-button close-button" type="button" data-close aria-label="Close video"><span aria-hidden="true">×</span></button></div><div class="player-container" id="player-container"></div><div class="film-details"><div><p class="eyebrow" id="film-kind"></p><h2 id="film-title"></h2></div><a id="youtube-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">Open on YouTube <span aria-hidden="true">↗</span></a></div></dialog>
+<dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-dialog-title"><div class="dialog-top"><p class="eyebrow">Start a conversation</p><button class="icon-button close-button" type="button" data-close aria-label="Close contact"><span aria-hidden="true">×</span></button></div><h2 id="contact-dialog-title">Good things start<br>with a hello.</h2><p class="contact-note">For a project, a collaboration, or an idea you can't stop thinking about.</p><a class="contact-row" href="mailto:fesirec@gmail.com"><span><small>Email</small>fesirec@gmail.com</span><span aria-hidden="true">↗</span></a><a class="contact-row" href="tel:+919496819579"><span><small>Phone</small>+91 94968 19579</span><span aria-hidden="true">↗</span></a></dialog>
+</body></html>
