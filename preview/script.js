@@ -47,8 +47,13 @@
       }
     }
     img.addEventListener('error', fallback);
-    img.addEventListener('load', () => { if (img.naturalWidth <= 120) fallback(); });
-    if (img.complete && img.naturalWidth <= 120) fallback();
+    function checkImage() {
+      if (img.naturalWidth <= 120) { fallback(); return; }
+      img.parentElement.classList.remove('image-unavailable');
+      img.parentElement.classList.toggle('standard-thumbnail', img.naturalHeight / img.naturalWidth > 0.65);
+    }
+    img.addEventListener('load', checkImage);
+    if (img.complete) checkImage();
   });
 
   const filmDialog = document.querySelector('#film-dialog');

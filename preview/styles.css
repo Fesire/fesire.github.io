@@ -317,7 +317,7 @@ button[hidden],[hidden] {
   transition:transform .65s cubic-bezier(.2,.7,.2,1),filter .4s;
   filter:saturate(.85);
 }
-.project:not(.project-featured) .project-image img {
+.project-image.standard-thumbnail img {
   height:133.333%;
   max-width:none;
   position:absolute;
