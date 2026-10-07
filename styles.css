@@ -716,16 +716,16 @@ dialog::backdrop {
   }
 }
 @media(min-width:1000px) {
-  .project-grid:not(.is-filtered) .project:last-child {
+  .project-grid:not(.is-filtered) .project:last-child:nth-child(even) {
     grid-column:1/-1;
     display:grid;
     grid-template-columns:1fr 1fr;
     column-gap:26px;
   }
-  .project-grid:not(.is-filtered) .project:last-child .project-link {
+  .project-grid:not(.is-filtered) .project:last-child:nth-child(even) .project-link {
     grid-column:1;
   }
-  .project-grid:not(.is-filtered) .project:last-child:after {
+  .project-grid:not(.is-filtered) .project:last-child:nth-child(even):after {
     content:'Always in motion.';
     font-family:var(--display);
     font-size:clamp(42px,5.4vw,84px);
